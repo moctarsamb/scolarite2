@@ -1,0 +1,189 @@
+<div class="container router col-lg-5 col-lg-offset-3">
+        <h3 class="text-center"> Inscription Etudiant</h3>
+        <form #form="ngForm" >
+                <div class="form-group row ">
+                    <label for="nom" class="col-lg-2 col-form-label" >Nom : </label>
+                    <div class="col-lg-10">
+                    <input type="text" name="nom" [(ngModel)]="etudiant.nom" class="form-control" placeholder="Entrez le nom" id="nom"  required>
+                </div>
+                </div>
+                <div class="form-group row">
+                    <label for="prenom" class="col-lg-2 col-form-label" >Prenom : </label>
+                    <div class="col-lg-10">
+                    <input type="text" name="prenom" [(ngModel)]="etudiant.prenom" class="form-control" placeholder="Entrez le prenom" id="prenom" required>
+                </div>
+                </div>
+                <div class="form-group row">
+                    <label for="ddn" class="col-lg-2 col-form-label" >Date de naissance</label>
+                    <div class="col-lg-10">
+                    <input type="date" name="ddn" [(ngModel)]="etudiant.ddn" class="form-control"  id="ddn" required>
+                </div>
+                </div>
+                <div class="form-group row">
+                    <label for="ldn" class="col-lg-2 col-form-label" >Lieu de naissance</label>
+                    <div class="col-lg-10">
+                    <input type="text" name="ldn" [(ngModel)]="etudiant.ldn" class="form-control" placeholder="Entrez le lieu de naissance" id="ldn" required>
+                </div>
+                </div>
+                <div class="form-group row">
+                    <label for="numcin" class="col-lg-2 col-form-label" >Numéro CIN</label>
+                    <div class="col-lg-10">
+                    <input type="text" name="numcin" [(ngModel)]="etudiant.numcin" class="form-control" placeholder="Entrez le numéro de CIN " id="numcin" required>
+                </div>
+                </div>
+                <div class="form-group row">
+                    <label for="numtel" class="col-lg-2 col-form-label" >Numéro Téléphone</label>
+                    <div class="col-lg-10">
+                    <input type="string" name="numtel" [(ngModel)]="etudiant.numtel" class="form-control" placeholder="Entrez le Numéro de Téléphone " id="numtel" required>
+                </div>
+                </div>
+                <div class="form-group row">
+                    <label for="seriebac" class="col-lg-2 col-form-label" >Série BAC</label>
+                    <div class="col-lg-10">
+                        <select name="seriebac" id="seriebac" class="form-control" [(ngModel)]="etudiant.seriebac" required>
+                            <option value="L1a" selected>L1a</option> 
+                            <option value="L1b">L1b</option> 
+                            <option value="L’1">L’1</option> 
+                            <option value="L2">L2</option> 
+                            <option value="LA">LA</option> 
+                            <option value="S1">S1</option> 
+                            <option value="S2">S2</option> 
+                            <option value="S3">S3</option> 
+                            <option value="S4">S4</option> 
+                            <option value="S5">S5</option> 
+                            <option value="T1">T1</option> 
+                            <option value="T2">T2</option> 
+                            <option value="G">G</option> 
+                            <option value="F6">F6</option> 
+                            <option value="S1A">S1A</option>
+                            <option value="S2A">S2A</option>
+                    </select>
+                </div>
+                </div>
+                <div class="form-group row">
+                    <label for="departement" class="col-lg-2 col-form-label" >Departement</label>
+                    <div class="col-lg-10">
+                        <select name="departement" id="departement" class="form-control" [(ngModel)]="etudiant.departement"  required>
+                            <option value="Génie Informatique" selected>Génie Informatique</option> 
+                            <option value="Génie Mécanique">Génie Mécanique</option> 
+                            <option value="Génie Civil">Génie Civil</option> 
+                            <option value="GCBA">Génie Chimie & Biologie Appliquée</option> 
+                            <option value="Gestion">Gestion</option> 
+                            <option value="Génie Electrique">Génie Electrique</option> 
+                    </select>
+                </div>
+                </div>
+                <div class="form-group row">
+                    <label for="formation" class="col-lg-2 col-form-label" >Formation</label>
+                    <div class="col-lg-10">
+                        <select name="formation" id="formation" class="form-control" [(ngModel)]="etudiant.formation" required>
+                            <option value="DUT" selected>DUT</option> 
+                            <option value="DIC">DIC</option> 
+                            <option *ngIf="etudiant.departement == 'Gestion'" value="DESCAF">DESCAF</option> 
+                        </select>           
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="option" class="col-lg-2 col-form-label" >Option</label>
+                    <div class="col-lg-10">
+                    <select name="option" id="option" class="form-control" [(ngModel)]="etudiant.option"  required>
+                            <option value="telecom" selected>Telecom & Reseaux</option> 
+                            <option value="info">Informatique</option> 
+                            <option *ngIf="etudiant.departement == 'Gestion'" value="DESCAF">Banque & Assurance</option> 
+                            <option *ngIf="etudiant.departement == 'Gestion'" value="DESCAF">Finance</option> 
+                            <option value="mecanique">Mécanique</option> 
+                            <option value="electrique nanovolts">Electrique NanoV</option> 
+                            <option value="electrique megavolts">Electrique MegaV</option> 
+                            <option value="chimie">Chimie</option> 
+                            <option value="biologie">Biologie</option> 
+                            
+                        </select>  
+                </div>
+                </div>
+                <div class="form-group row">
+                    <label for="sexe" class="col-lg-2 col-form-label" >Sexe</label>
+                    <div class="col-lg-10">
+                        <select name="sexe" id="sexe" class="form-control" [(ngModel)]="etudiant.sexe" required>
+                            <option value="M" selected>M</option> 
+                            <option value="F">F</option> 
+                        </select>           
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="niveau" class="col-lg-2 col-form-label" >Niveau </label>
+                    <div class="col-lg-10">
+                        <select name="niveau" id="niveau" class="form-control" [(ngModel)]="etudiant.niveau" required>
+                            <option value="1" selected>1</option> 
+                            <option value="2">2</option> 
+                            <option value="3">3</option> 
+                            <option value="4">4</option> 
+                        </select>              
+                        </div>
+                </div>
+                <div class="form-group row">
+                    <label for="numetu" class="col-lg-2 col-form-label" >Numero Etudiant</label>
+                    <div class="col-lg-10">
+                    <input type="text" name="numetu" [(ngModel)]="etudiant.numetu" class="form-control" placeholder="Entrez le Numéro Étudiant" id="numetu" required>
+                </div>
+                </div>
+                <div class="form-group row">
+                    <label for="natureforma" class="col-lg-2 col-form-label" >Nature Formation</label>
+                    <div class="col-lg-10">
+                        <select name="natureforma" id="natureforma" class="form-control" [(ngModel)]="etudiant.natureforma" required>
+                            <option value="Jour" selected>Jour</option> 
+                            <option value="Nuit">Nuit</option> 
+                        </select> 
+                </div>
+                </div>
+                <div class="form-group row">
+                    <label for="anneac" class="col-lg-2 col-form-label" >Annee Académique</label>
+                    <div class="col-lg-10">
+                        <select name="anneac" id="anneac" [(ngModel)]="etudiant.anneeac" required>
+                            <option *ngFor="let item of listac" value="{{item.value}}">
+                                {{ item.value }}
+                            </option>
+
+                        </select>
+                </div>
+                </div>
+                <div class="form-group row">
+                    <label for="etat" class="col-lg-2 col-form-label" >Etat/Tiers</label>
+                    <div class="col-lg-10">
+                        <select name="etat" id="etat" class="form-control" [(ngModel)]="etudiant.etat" required>
+                            <option value="Public" selected>Public</option> 
+                            <option value="Privé">Privé</option> 
+                        </select>             
+                        </div>
+                </div>
+                <div class="form-group row">
+                    <label for="resultat" class="col-lg-2 col-form-label" >Resultat </label>
+                    <div class="col-lg-10">
+                            <select name="resultat" id="resultat" class="form-control" [(ngModel)]="etudiant.resultat" required>
+                            <option value="Annee En Cours" selected>Annee En Cours</option> 
+                            <option value="Redouble">Redouble</option> 
+                            <option value="Passe">Passe</option> 
+                            <option value="Renvoye">Renvoye</option>    
+                        </select>             
+                        </div>
+                </div>
+            
+            <div class="form-group row text-center">
+                    <button [disabled]="!form.valid" (click)="registeretu($event)" class="btn btn-info"> Inscription </button>
+            </div>
+        </form>
+        <div class="cs-loader" *ngIf="!displayloading" >
+  <div class="cs-loader-inner text-center">
+    <label>	●</label>
+    <label>	●</label>
+    <label>	●</label>
+    <label>	●</label>
+    <label>	●</label>
+    <label>	●</label>
+  </div>
+</div>
+<div *ngIf="!nodisplayerr" class="alert alert-danger" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span class="sr-only"><strong>ERREUR</strong></span>
+  {{errortext}}
+</div>      
+</div>

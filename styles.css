@@ -1,0 +1,71 @@
+.img-header {
+    width: 10% ;
+    height: 7% ;
+}
+.footer {
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 30px;
+  background-color: #1976D2;
+  color: white
+}
+.router{
+    padding-top: 75px ;
+    padding-bottom: 35px ;
+}
+.navbar-default {
+    background-color :#1976D2;
+    color: whitesmoke 
+}
+.welcome{
+    background: url("./app/media/welcome-wal.jpg")   ;
+    width: 100%;
+    height: 800px; 
+    color: white
+
+}
+.pushaway {
+    margin-top: 100px;
+}
+@keyframes lol {
+  0% {
+    opacity: 0;
+    transform: translateX(-300px);
+  }
+  33% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  66% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(300px);
+  }
+}
+
+.cs-loader-inner label:nth-child(6) {
+  animation: lol 3s infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(5) {
+  animation: lol 3s 100ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(4) {
+  animation: lol 3s 200ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(3) {
+  animation: lol 3s 300ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(2) {
+  animation: lol 3s 400ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(1) {
+  animation: lol 3s 500ms infinite ease-in-out;
+}

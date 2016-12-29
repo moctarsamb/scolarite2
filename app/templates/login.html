@@ -1,0 +1,36 @@
+<div class="container router col-lg-5 col-lg-offset-3">
+        <h3 class="text-center"> Connexion</h3>
+        <form>
+            <div class="form-group row ">
+                <label for="login" class="col-lg-2 col-form-label" >Login</label>
+                <div class="col-lg-10">
+                <input type="text" name="login" [(ngModel)]="creditantials.username" class="form-control" placeholder="Entrez le Login" id="login">
+            </div>
+            </div>
+             <div class="form-group row">
+                <label for="password" class="col-lg-2 col-form-label" >Password</label>
+                <div class="col-lg-10">
+                <input type="password" name="password" [(ngModel)]="creditantials.password" class="form-control " placeholder="Entrez le Mot de passe" id="password">
+            </div>
+            </div>
+            <div class="form-group row text-center">
+                    <button (click)="checklogin($event)" class="btn btn-info"> Se connecter </button>
+            </div>
+        </form>
+        <div class="cs-loader" *ngIf="!displayloading" >
+  <div class="cs-loader-inner text-center">
+    <label>	●</label>
+    <label>	●</label>
+    <label>	●</label>
+    <label>	●</label>
+    <label>	●</label>
+    <label>	●</label>
+  </div>
+</div>
+<div *ngIf="!nodisplayerr" class="alert alert-danger" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span class="sr-only"><strong>ERREUR</strong></span>
+  {{errortext}}
+</div>      
+</div>
+

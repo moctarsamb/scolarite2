@@ -1,0 +1,224 @@
+<div class="container router" >   
+    <div>
+        <h1 > <a class="btn btn-success" (click) = "goto($event,'homeuser')" > Retour</a> </h1><br>  
+    </div>
+    <div>
+        <span  class="glyphicon glyphicon-console"></span><button class="btn btn-link" (click)="displayfilter = !displayfilter"  >Filter</button>
+    </div>
+    <div *ngIf="displayfilter" >
+         <div class="form-group row ">
+                <label for="nom" class="col-lg-3 col-form-label"><input type="checkbox" [(ngModel)]="checknom" class="col-lg-1" >
+ Nom : </label>
+                <div class="col-lg-3">
+                <input type="text" name="nom" [(ngModel)]="etudiant.nom" class="form-control" placeholder="Entrez le nom" id="nom" [disabled]="!checknom" required >
+            </div>
+            
+                <label for="prenom" class="col-lg-3 col-form-label" ><input type="checkbox" [(ngModel)]="checkprenom" class="col-lg-1" >Prenom : </label>
+                <div class="col-lg-3">
+                <input type="text" name="prenom" [(ngModel)]="etudiant.prenom" class="form-control" placeholder="Entrez le prenom" id="prenom"[disabled]="!checkprenom" required>
+            </div>
+            </div>
+             <div class="form-group row">
+                <label for="ddn" class="col-lg-3 col-form-label" ><input type="checkbox" [(ngModel)]="checkddn" class="col-lg-1" >Date de naissance</label>
+                <div class="col-lg-3">
+                <input type="date" name="ddn" [(ngModel)]="etudiant.ddn" class="form-control"  id="ddn" [disabled]="!checkddn" required>
+            </div>
+                <label for="ldn" class="col-lg-3 col-form-label" ><input type="checkbox" [(ngModel)]="checkldn" class="col-lg-1" >Lieu de naissance</label>
+                <div class="col-lg-3">
+                <input type="text" name="ldn" [(ngModel)]="etudiant.ldn" class="form-control" placeholder="Entrez le lieu de naissance" id="ldn" [disabled]="!checkldn" required>
+            </div>
+            </div>
+             <div class="form-group row">
+                <label for="numcin" class="col-lg-3 col-form-label" ><input type="checkbox" [(ngModel)]="checkcin" class="col-lg-1" >Numéro CIN</label>
+                <div class="col-lg-3">
+                <input type="text" name="numcin" [(ngModel)]="etudiant.numcin" class="form-control" placeholder="Entrez le numéro de CIN " id="numcin" [disabled]="!checkcin" required>
+            </div>
+                <label for="numtel" class="col-lg-3 col-form-label" ><input type="checkbox" [(ngModel)]="checktel" class="col-lg-1" >Numéro Téléphone</label>
+                <div class="col-lg-3">
+                <input type="string" name="numtel" [(ngModel)]="etudiant.numtel" class="form-control" placeholder="Entrez le Numéro de Téléphone " id="numtel" [disabled]="!checktel" required>
+            </div>
+            </div>
+             <div class="form-group row">
+                <label for="seriebac" class="col-lg-3 col-form-label" ><input type="checkbox" [(ngModel)]="checkserbac" class="col-lg-1" >Série BAC</label>
+                <div class="col-lg-3">
+                    <select name="seriebac" id="seriebac" class="form-control" [(ngModel)]="etudiant.seriebac" [disabled]="!checkserbac" required>
+                        <option value="L1a" >L1a</option> 
+                        <option value="L1b">L1b</option> 
+                        <option value="L’1">L’1</option> 
+                        <option value="L2">L2</option> 
+                        <option value="LA">LA</option> 
+                        <option value="S1">S1</option> 
+                        <option value="S2">S2</option> 
+                        <option value="S3">S3</option> 
+                        <option value="S4">S4</option> 
+                        <option value="S5">S5</option> 
+                        <option value="T1">T1</option> 
+                        <option value="T2">T2</option> 
+                        <option value="G">G</option> 
+                        <option value="F6">F6</option> 
+                        <option value="S1A">S1A</option>
+                        <option value="S2A">S2A</option>
+                </select>
+            </div>
+                <label for="departement" class="col-lg-3 col-form-label" ><input type="checkbox" [(ngModel)]="checkdep" class="col-lg-1" >Departement</label>
+                <div class="col-lg-3">
+                    <select name="departement" id="departement" class="form-control" [(ngModel)]="etudiant.departement" [disabled]="!checkdep" required>
+                        <option value="Génie Informatique" >Génie Informatique</option> 
+                        <option value="Génie Mécanique">Génie Mécanique</option> 
+                        <option value="Génie Civil">Génie Civil</option> 
+                        <option value="GCBA">Génie Chimie & Biologie Appliquée</option> 
+                        <option value="Gestion">Gestion</option> 
+                        <option value="Génie Electrique">Génie Electrique</option> 
+                </select>
+            </div>
+            </div>
+             <div class="form-group row">
+                <label for="formation" class="col-lg-3 col-form-label" ><input type="checkbox" [(ngModel)]="checkforma" class="col-lg-1" >Formation</label>
+                <div class="col-lg-3">
+                    <select name="formation" id="formation" class="form-control" [(ngModel)]="etudiant.formation" [disabled]="!checkforma" required>
+                        <option value="DUT" >DUT</option> 
+                        <option value="DIC">DIC</option> 
+                        <option *ngIf="etudiant.departement == 'Gestion'" value="DESCAF">DESCAF</option> 
+                    </select>           
+                 </div>
+                <label for="option" class="col-lg-3 col-form-label" ><input type="checkbox" [(ngModel)]="checkopt" class="col-lg-1" >Option</label>
+                <div class="col-lg-3">
+                  <select name="option" id="option" class="form-control" [(ngModel)]="etudiant.option" [disabled]="!checkopt" required>
+                        <option value="telecom" >Telecom & Reseaux</option> 
+                        <option value="info">Informatique</option> 
+                        <option *ngIf="etudiant.departement == 'Gestion'" value="DESCAF">Banque & Assurance</option> 
+                        <option *ngIf="etudiant.departement == 'Gestion'" value="DESCAF">Finance</option> 
+                        <option value="mecanique">Mécanique</option> 
+                        <option value="electrique nanovolts">Electrique NanoV</option> 
+                        <option value="electrique megavolts">Electrique MegaV</option> 
+                        <option value="chimie">Chimie</option> 
+                        <option value="biologie">Biologie</option> 
+                        
+                    </select>  
+            </div>
+            </div>
+             <div class="form-group row">
+                <label for="sexe" class="col-lg-3 col-form-label" ><input type="checkbox" [(ngModel)]="checksexe" class="col-lg-1" >Sexe</label>
+                <div class="col-lg-3">
+                      <select name="sexe" id="sexe" class="form-control" [(ngModel)]="etudiant.sexe" [disabled]="!checksexe" required>
+                        <option value="M" >M</option> 
+                        <option value="F">F</option> 
+                    </select>           
+                 </div>
+                <label for="niveau" class="col-lg-3 col-form-label" ><input type="checkbox" [(ngModel)]="checkniv" class="col-lg-1" >Niveau </label>
+                <div class="col-lg-3">
+                    <select name="niveau" id="niveau" class="form-control" [(ngModel)]="etudiant.niveau" [disabled]="!checkniv" required>
+                        <option value="1" >1</option> 
+                        <option value="2">2</option> 
+                        <option value="3">3</option> 
+                        <option value="4">4</option> 
+                    </select>              
+                     </div>
+            </div>
+             <div class="form-group row">
+                <label for="numetu" class="col-lg-3 col-form-label" ><input type="checkbox" [(ngModel)]="checknumetu" class="col-lg-1" >Numero Etudiant</label>
+                <div class="col-lg-3">
+                <input type="text" name="numetu" [(ngModel)]="etudiant.numetu" class="form-control" placeholder="Entrez le Numéro Étudiant" id="numetu" [disabled]="!checknumetu" required>
+            </div>
+                <label for="natureforma" class="col-lg-3 col-form-label" ><input type="checkbox" [(ngModel)]="checknatforma" class="col-lg-1" >Nature Formation</label>
+                <div class="col-lg-3">
+                     <select name="natureforma" id="natureforma" class="form-control" [(ngModel)]="etudiant.natureforma" [disabled]="!checknatforma" required>
+                        <option value="Jour" >Jour</option> 
+                        <option value="Nuit">Nuit</option> 
+                    </select> 
+            </div>
+            </div>
+             <div class="form-group row">
+                <label for="anneac" class="col-lg-3 col-form-label" ><input type="checkbox" [(ngModel)]="checkannee" class="col-lg-1" >Annee Académique</label>
+                <div class="col-lg-3">
+                    <select name="anneac" id="anneac" [(ngModel)]="etudiant.anneeac" [disabled]="!checkannee" required>
+                        <option *ngFor="let item of listac" value="{{item.value}}">
+                            {{ item.value }}
+                        </option>
+
+                    </select>
+            </div>
+                <label for="etat" class="col-lg-3 col-form-label" ><input type="checkbox" [(ngModel)]="checketat" class="col-lg-1" >Etat/Tiers</label>
+                <div class="col-lg-3">
+                    <select name="etat" id="etat" class="form-control" [(ngModel)]="etudiant.etat" [disabled]="!checketat" required>
+                        <option value="Public" selected>Public</option> 
+                        <option value="Nuit">Privé</option> 
+                    </select>             
+                    </div>
+            </div>
+             <div class="form-group row">
+                <label for="resultat" class="col-lg-3 col-form-label" ><input type="checkbox" [(ngModel)]="checkres" class="col-lg-1" >Resultat </label>
+                <div class="col-lg-3">
+                        <select name="resultat" id="resultat" class="form-control" [(ngModel)]="etudiant.resultat" [disabled]="!checkres" required>
+                        <option value="Annee En Cours">Annee En Cours</option> 
+                        <option value="Redouble">Redouble</option> 
+                        <option value="Passe">Passe</option> 
+                        <option value="Renvoye">Renvoye</option>    
+                    </select>             
+                    </div>
+                          <div class="col-lg-2">
+                   <button (click)="filtration($event)" class="btn btn-success btn-block"  >Filtrer</button>        
+                     </div>
+                     <div class="col-lg-2">
+                   <button (click)="reset()" class="btn btn-warning btn-block"  >Reset</button>        
+                     </div>
+                     <div class="col-lg-2">
+                         <select [(ngModel)]="etou" class="form-control">
+                             <option value="et"> Exclusif </option>
+                             <option value="ou"> Inclusif</option>
+                         </select>
+                     </div>
+          
+            </div>
+          
+    </div>
+<div class="table-responsive">
+    <table class="table table-hover table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <th (click) = "changetri_attribute('numetu')">Num Etudiant</th>
+                    <th (click) = "changetri_attribute('prenom')">Prénom</th>
+                    <th (click) = "changetri_attribute('nom')">Nom</th>
+                    <th (click) = "changetri_attribute('ddn')">Date de naissance</th>
+                    <th (click) = "changetri_attribute('ldn')">Lieu de naissance</th>
+                    <th (click) = "changetri_attribute('sexe')">Sexe</th>                    
+                    <th (click) = "changetri_attribute('numcin')">Numéro CI</th>
+                    <th (click) = "changetri_attribute('numtel')">Num Téléphone</th>
+                    <th (click) = "changetri_attribute('seriebac')">Série Bac</th>
+                    <th (click) = "changetri_attribute('departement')">Département</th>
+                    <th (click) = "changetri_attribute('formation')">Formation</th>
+                    <th (click) = "changetri_attribute('option')">Option</th>
+                    <th (click) = "changetri_attribute('niveau')">Niveau</th>
+                    <th (click) = "changetri_attribute('natureforma')">Nature Formation</th>
+                    <th (click) = "changetri_attribute('anneeac')">Année Académique</th>
+                    <th (click) = "changetri_attribute('etat')">État</th>
+                    <th (click) = "changetri_attribute('resultat')">Résultat</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr *ngFor="let item of  (rows | tri_attribute : filter | adcd : order ) ">
+                        <td>{{item.numetu}}</td>
+                        <td>{{item.prenom}}</td>
+                        <td>{{item.nom}}</td>
+                        <td>{{item.ddn | date:"dd/MM/yy"}}</td>
+                        <td>{{item.ldn}}</td>
+                        <td>{{item.sexe}}</td>
+                        <td>{{item.numcin}}</td>
+                        <td>{{item.numtel}}</td>
+                        <td>{{item.seriebac}}</td>
+                        <td>{{item.departement}}</td>
+                        <td>{{item.formation}}</td>
+                        <td>{{item.option}}</td>
+                        <td>{{item.niveau}}</td>
+                        <td>{{item.natureforma}}</td>
+                        <td>{{item.anneeac}}</td>
+                        <td>{{item.etat}}</td>
+                        <td>{{item.resultat}}</td>
+                    </tr>
+            </tbody>
+    </table>
+    <h4 class="text-center"*ngIf="!rows || rows.length == 0" > Aucun élément ne correspond à la recherche</h4>
+</div>
+
+            
+</div>
