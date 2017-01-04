@@ -15,10 +15,10 @@ export class HttpService {
             .map(response => response.json());
     }
 
-    sendlogin(parameter : any){
+    logoutinto(parameter : any){
          let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-        return this._http.post(this.api_url + '/utilisateur/login',parameter,options)
+        return this._http.post(this.api_url + '/utilisateur/logout',parameter,options)
             .map(response => response.json());
     }
     createEtudiant(parameter : any){
@@ -30,5 +30,10 @@ export class HttpService {
     getEtudiants(){
         return this._http.get(this.api_url + "/etudiants/").map(res => res.json())
     }  
+    checkloginto(id:any,token : any){
+        
+        return this._http.get(this.api_url+"/utilisateurs/"+id+"?access_token="+token)
+            .map((response) => response.json());
+    }
 
 }

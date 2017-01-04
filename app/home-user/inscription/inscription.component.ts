@@ -15,7 +15,7 @@ export class inscriptionManComponent {
      nodisplayerr = true ;
      etudiant = new ModelEtudiant() ;
 
-    listac = []; 
+    listac: any[]= []; 
     constructor(private _http : HttpService,private _route : Router){
   
         for (let i=0 ; i< 100; i ++){
@@ -39,11 +39,11 @@ export class inscriptionManComponent {
         )
 
         }
-        handle(parameter) {
+        handle(parameter: any) {
             console.log(parameter)
             this._route.navigate(["listeetu"])
         }
-        handleerror(parameter){
+        handleerror(parameter: any){
             console.log(parameter)
         }
     }

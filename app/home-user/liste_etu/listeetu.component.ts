@@ -2,14 +2,18 @@ import { Component,Directive,  OnInit } from '@angular/core';
 import {HttpService} from '../../http.service';
 import {Etudiant as ModelEtudiant} from "../../models/etudiant"
 import {Router} from "@angular/router"
-
+import {StatsComponent} from "./statliste.component"
+import {Chart} from 'chart.js/chart.js'
+import {CheckLog} from '../../check.injectable'
 
 @Component({
     moduleId: module.id,
     templateUrl: '/app/templates/etudiant/listeetu.html',
-    providers : [HttpService],
+    providers : [HttpService,CheckLog],
+    entryComponents : [StatsComponent]
 })
 export class ListeEtuComponent implements OnInit {
+    touchedfilter : boolean
     alletudiants : Array<ModelEtudiant> 
     filter : String = "numetu"
     order : String = "ac"
@@ -17,6 +21,7 @@ export class ListeEtuComponent implements OnInit {
     columns : any ;
     etudiant : ModelEtudiant
     displayfilter : boolean  ;
+    displaystats : boolean ;
     checknom : Boolean = false ;
     checkprenom : Boolean = false ;
     checkddn : Boolean = false ;
@@ -36,7 +41,7 @@ export class ListeEtuComponent implements OnInit {
     checkres : Boolean = false ;
      listac : any [] = [] ; 
    etou = "et"
-    constructor(private _httpser : HttpService,private _route : Router) {
+    constructor(private _httpser : HttpService,private _route : Router, private checklogin : CheckLog) {
       let x =new Date();
 
      for (let i=0 ; i< 100; i ++){
@@ -52,6 +57,7 @@ export class ListeEtuComponent implements OnInit {
         }
       this.getalletudiants()
       this.etudiant = new ModelEtudiant()
+      this.checklogin.checkLogin()
      }
      ngOnInit(){
 
@@ -88,24 +94,28 @@ export class ListeEtuComponent implements OnInit {
  reset(e : Event){
    e.preventDefault()
    this.getalletudiants()
+   this.displaystats = false
+   this.touchedfilter = false
  }
   filtration(e: Event){
     e.preventDefault()
+    this.displaystats = false
     if(this.etou == "et"){
         this.filtrat()
     }
     else{
       this.filtratou;
     }
+    this.touchedfilter = true ;
   }
     filtrat(){
     this.rows = this.alletudiants
-    let filtereddata : Array<ModelEtudiant> = [];
+    var filtereddata : Array<ModelEtudiant> = [];
     let inf : Boolean = false
     if(this.checknom){
       inf = true ;
       this.rows.forEach((row : ModelEtudiant) => {
-          if(row.nom.includes(this.etudiant.nom)){
+          if(row.nom.toLowerCase().includes(this.etudiant.nom.toLowerCase())){
              filtereddata.push(row)
           }
       }); 
@@ -117,24 +127,26 @@ export class ListeEtuComponent implements OnInit {
       }
       else if(filtereddata.length > 0){
                   let counta : number = 0 ;
-                  let temp : ModelEtudiant[] = filtereddata
-                  console.log(temp.length)
+                  var temp  = filtereddata.length;
+                  var asupprim :any[] =  []
                   let i : number = 0 ;
+
      do{
-          console.log("OUI")
-            if(!temp[i].prenom.includes(this.etudiant.prenom) ){
-              console.log(filtereddata)
-               filtereddata.splice(filtereddata.indexOf(temp[i])-counta,1);
-                console.log(filtereddata);
+            if(!filtereddata[i].prenom.toLowerCase().includes(this.etudiant.prenom.toLowerCase()) ){
+            asupprim.push(filtereddata.indexOf(filtereddata[i]))
             }
             i = i + 1 ;
-            console.log(i)
-        }while(i  > temp.length)
+        }while( i < temp)
+        asupprim.forEach((supp : any) => {
+            filtereddata.splice(supp-counta,1)
+            console.log(filtereddata)
+            counta = counta + 1 
+        })
       }
       else{
         inf = true ;
           this.rows.forEach((row : ModelEtudiant) => {
-            if(row.prenom.includes(this.etudiant.prenom)){
+            if(row.prenom.toLowerCase().includes(this.etudiant.prenom.toLowerCase())){
             filtereddata.push(row)
           }
       }); 
@@ -147,17 +159,27 @@ export class ListeEtuComponent implements OnInit {
         return ;
       }
       else if(filtereddata.length > 0){
-        filtereddata.forEach((filtered : ModelEtudiant) => {
-          inf = true
-            if(!filtered.numcin.includes(this.etudiant.numcin) ){
-                filtereddata.splice(filtereddata.indexOf(filtered),1);
+            let counta : number = 0 ;
+                  var temp  = filtereddata.length;
+                  var asupprim :any[] =  []
+                  let i : number = 0 ;
+
+     do{
+            if(!filtereddata[i].numcin.toLowerCase().includes(this.etudiant.numcin.toLowerCase()) ){
+            asupprim.push(filtereddata.indexOf(filtereddata[i]))
             }
+            i = i + 1 ;
+        }while( i < temp)
+        asupprim.forEach((supp : any) => {
+            filtereddata.splice(supp-counta,1)
+            console.log(filtereddata)
+            counta = counta + 1 
         })
       }
       else{
         inf = true ;
           this.rows.forEach((row : ModelEtudiant) => {
-            if(row.numcin.includes(this.etudiant.numcin)){
+            if(row.numcin.toLowerCase().includes(this.etudiant.numcin.toLowerCase())){
             filtereddata.push(row)
           }
       }); 
@@ -169,17 +191,27 @@ export class ListeEtuComponent implements OnInit {
         return ;
       }
       else if(filtereddata.length > 0){
-        filtereddata.forEach((filtered : ModelEtudiant) => {
-          inf = true
-            if( filtered.ddn.toString().slice(0,10) != this.etudiant.ddn.toString() ){
-                filtereddata.splice(filtereddata.indexOf(filtered),1);
+            let counta : number = 0 ;
+                  var temp  = filtereddata.length;
+                  var asupprim :any[] =  []
+                  let i : number = 0 ;
+
+     do{
+            if(!filtereddata[i].ddn.toString().slice(0,10).toLowerCase().includes(this.etudiant.ddn.toString().toLowerCase()) ){
+            asupprim.push(filtereddata.indexOf(filtereddata[i]))
             }
+            i = i + 1 ;
+        }while( i < temp)
+        asupprim.forEach((supp : any) => {
+            filtereddata.splice(supp-counta,1)
+            console.log(filtereddata)
+            counta = counta + 1 
         })
       }
       else{
         inf = true ;
           this.rows.forEach((row : ModelEtudiant) => {   
-            if(row.ddn.toString().slice(0,10).includes(this.etudiant.ddn.toString() )){
+            if(row.ddn.toString().slice(0,10).toLowerCase().includes(this.etudiant.ddn.toString().toLowerCase() )){
             filtereddata.push(row)
           }
       }); 
@@ -191,17 +223,27 @@ export class ListeEtuComponent implements OnInit {
         return ;
       }
       else if(filtereddata.length > 0){
-        filtereddata.forEach((filtered : ModelEtudiant) => {
-          inf = true
-            if(!filtered.departement.includes(this.etudiant.departement) ){
-                filtereddata.splice(filtereddata.indexOf(filtered),1);
+         let counta : number = 0 ;
+                  var temp  = filtereddata.length;
+                  var asupprim :any[] =  []
+                  let i : number = 0 ;
+
+     do{
+            if(!filtereddata[i].departement.toLowerCase().includes(this.etudiant.departement.toLowerCase()) ){
+            asupprim.push(filtereddata.indexOf(filtereddata[i]))
             }
+            i = i + 1 ;
+        }while( i < temp)
+        asupprim.forEach((supp : any) => {
+            filtereddata.splice(supp-counta,1)
+            console.log(filtereddata)
+            counta = counta + 1 
         })
       }
       else{
         inf = true ;
           this.rows.forEach((row : ModelEtudiant) => {
-            if(row.departement.includes(this.etudiant.departement)){
+            if(row.departement.toLowerCase().includes(this.etudiant.departement.toLowerCase())){
             filtereddata.push(row)
           }
       }); 
@@ -213,17 +255,26 @@ export class ListeEtuComponent implements OnInit {
         return ;
       }
       else if(filtereddata.length > 0){
-        filtereddata.forEach((filtered : ModelEtudiant) => {
-          inf = true
-            if(!filtered.etat.includes(this.etudiant.etat) ){
-                filtereddata.splice(filtereddata.indexOf(filtered),1);
+           let counta : number = 0 ;
+                  var temp  = filtereddata.length;
+                  var asupprim :any[] =  []
+                  let i : number = 0 ;
+
+     do{
+            if(!filtereddata[i].etat.toLowerCase().includes(this.etudiant.etat.toLowerCase()) ){
+            asupprim.push(filtereddata.indexOf(filtereddata[i]))
             }
+            i = i + 1 ;
+        }while( i < temp)
+        asupprim.forEach((supp : any) => {
+            filtereddata.splice(supp-counta,1)
+            counta = counta + 1 
         })
       }
       else{
         inf = true ;
           this.rows.forEach((row : ModelEtudiant) => {
-            if(row.etat.includes(this.etudiant.etat)){
+            if(row.etat.toLowerCase().includes(this.etudiant.etat.toLowerCase())){
             filtereddata.push(row)
           }
       }); 
@@ -235,17 +286,26 @@ export class ListeEtuComponent implements OnInit {
         return ;
       }
       else if(filtereddata.length > 0){
-        filtereddata.forEach((filtered : ModelEtudiant) => {
-          inf = true
-            if(!filtered.formation.includes(this.etudiant.formation) ){
-                filtereddata.splice(filtereddata.indexOf(filtered),1);
+              let counta : number = 0 ;
+                  var temp  = filtereddata.length;
+                  var asupprim :any[] =  []
+                  let i : number = 0 ;
+
+     do{
+            if(!filtereddata[i].formation.toLowerCase().includes(this.etudiant.formation.toLowerCase()) ){
+            asupprim.push(filtereddata.indexOf(filtereddata[i]))
             }
+            i = i + 1 ;
+        }while( i < temp)
+        asupprim.forEach((supp : any) => {
+            filtereddata.splice(supp-counta,1)
+            counta = counta + 1 
         })
       }
       else{
         inf = true ;
           this.rows.forEach((row : ModelEtudiant) => {
-            if(row.formation.includes(this.etudiant.formation)){
+            if(row.formation.toLowerCase().includes(this.etudiant.formation.toLowerCase())){
             filtereddata.push(row)
           }
       }); 
@@ -257,17 +317,26 @@ export class ListeEtuComponent implements OnInit {
         return ;
       }
       else if(filtereddata.length > 0){
-        filtereddata.forEach((filtered : ModelEtudiant) => {
-          inf = true
-            if(!filtered.ldn.includes(this.etudiant.ldn) ){
-                filtereddata.splice(filtereddata.indexOf(filtered),1);
+              let counta : number = 0 ;
+                  var temp  = filtereddata.length;
+                  var asupprim :any[] =  []
+                  let i : number = 0 ;
+
+     do{
+            if(!filtereddata[i].ldn.toLowerCase().includes(this.etudiant.ldn.toLowerCase()) ){
+            asupprim.push(filtereddata.indexOf(filtereddata[i]))
             }
+            i = i + 1 ;
+        }while( i < temp)
+        asupprim.forEach((supp : any) => {
+            filtereddata.splice(supp-counta,1)
+            counta = counta + 1 
         })
       }
       else{
         inf = true ;
           this.rows.forEach((row : ModelEtudiant) => {
-            if(row.ldn.includes(this.etudiant.ldn)){
+            if(row.ldn.toLowerCase().includes(this.etudiant.ldn.toLowerCase())){
             filtereddata.push(row)
           }
       }); 
@@ -279,17 +348,26 @@ export class ListeEtuComponent implements OnInit {
         return ;
       }
       else if(filtereddata.length > 0){
-        filtereddata.forEach((filtered : ModelEtudiant) => {
-          inf = true
-            if(!filtered.natureforma.includes(this.etudiant.natureforma) ){
-                filtereddata.splice(filtereddata.indexOf(filtered),1);
+                let counta : number = 0 ;
+                  var temp  = filtereddata.length;
+                  var asupprim :any[] =  []
+                  let i : number = 0 ;
+
+     do{
+            if(!filtereddata[i].natureforma.toLowerCase().includes(this.etudiant.natureforma.toLowerCase()) ){
+            asupprim.push(filtereddata.indexOf(filtereddata[i]))
             }
+            i = i + 1 ;
+        }while( i < temp)
+        asupprim.forEach((supp : any) => {
+            filtereddata.splice(supp-counta,1)
+            counta = counta + 1 
         })
       }
       else{
         inf = true ;
           this.rows.forEach((row : ModelEtudiant) => {
-            if(row.natureforma.includes(this.etudiant.natureforma)){
+            if(row.natureforma.toLowerCase().includes(this.etudiant.natureforma.toLowerCase())){
             filtereddata.push(row)
           }
       }); 
@@ -301,17 +379,26 @@ export class ListeEtuComponent implements OnInit {
         return ;
       }
       else if(filtereddata.length > 0){
-        filtereddata.forEach((filtered : ModelEtudiant) => {
-          inf = true
-            if(!filtered.niveau.includes(this.etudiant.niveau) ){
-                filtereddata.splice(filtereddata.indexOf(filtered),1);
+                let counta : number = 0 ;
+                  var temp  = filtereddata.length;
+                  var asupprim :any[] =  []
+                  let i : number = 0 ;
+
+     do{
+            if(!filtereddata[i].niveau.toLowerCase().includes(this.etudiant.niveau.toLowerCase()) ){
+            asupprim.push(filtereddata.indexOf(filtereddata[i]))
             }
+            i = i + 1 ;
+        }while( i < temp)
+        asupprim.forEach((supp : any) => {
+            filtereddata.splice(supp-counta,1)
+            counta = counta + 1 
         })
       }
       else{
         inf = true ;
           this.rows.forEach((row : ModelEtudiant) => {
-            if(row.niveau.includes(this.etudiant.niveau)){
+            if(row.niveau.toLowerCase().includes(this.etudiant.niveau.toLowerCase())){
             filtereddata.push(row)
           }
       }); 
@@ -323,17 +410,26 @@ export class ListeEtuComponent implements OnInit {
         return ;
       }
       else if(filtereddata.length > 0){
-        filtereddata.forEach((filtered : ModelEtudiant) => {
-          inf = true
-            if(!filtered.option.includes(this.etudiant.option) ){
-                filtereddata.splice(filtereddata.indexOf(filtered),1);
+               let counta : number = 0 ;
+                  var temp  = filtereddata.length;
+                  var asupprim :any[] =  []
+                  let i : number = 0 ;
+
+     do{
+            if(!filtereddata[i].option.toLowerCase().includes(this.etudiant.option.toLowerCase()) ){
+            asupprim.push(filtereddata.indexOf(filtereddata[i]))
             }
+            i = i + 1 ;
+        }while( i < temp)
+        asupprim.forEach((supp : any) => {
+            filtereddata.splice(supp-counta,1)
+            counta = counta + 1 
         })
       }
       else{
         inf = true ;
           this.rows.forEach((row : ModelEtudiant) => {
-            if(row.option.includes(this.etudiant.option)){
+            if(row.option.toLowerCase().includes(this.etudiant.option.toLowerCase())){
             filtereddata.push(row)
           }
       }); 
@@ -345,17 +441,26 @@ export class ListeEtuComponent implements OnInit {
         return ;
       }
       else if(filtereddata.length > 0){
-        filtereddata.forEach((filtered : ModelEtudiant) => {
-          inf = true
-            if(!filtered.numetu.includes(this.etudiant.numetu) ){
-                filtereddata.splice(filtereddata.indexOf(filtered),1);
+                let counta : number = 0 ;
+                  var temp  = filtereddata.length;
+                  var asupprim :any[] =  []
+                  let i : number = 0 ;
+
+     do{
+            if(!filtereddata[i].numetu.toLowerCase().includes(this.etudiant.numetu.toLowerCase()) ){
+            asupprim.push(filtereddata.indexOf(filtereddata[i]))
             }
+            i = i + 1 ;
+        }while( i < temp)
+        asupprim.forEach((supp : any) => {
+            filtereddata.splice(supp-counta,1)
+            counta = counta + 1 
         })
       }
       else{
         inf = true ;
           this.rows.forEach((row : ModelEtudiant) => {
-            if(row.numetu.includes(this.etudiant.numetu)){
+            if(row.numetu.toLowerCase().includes(this.etudiant.numetu.toLowerCase())){
             filtereddata.push(row)
           }
       }); 
@@ -367,17 +472,26 @@ export class ListeEtuComponent implements OnInit {
         return ;
       }
       else if(filtereddata.length > 0){
-        filtereddata.forEach((filtered : ModelEtudiant) => {
-          inf = true
-            if(!filtered.anneeac.includes(this.etudiant.anneeac) ){
-                filtereddata.splice(filtereddata.indexOf(filtered),1);
+               let counta : number = 0 ;
+                  var temp  = filtereddata.length;
+                  var asupprim :any[] =  []
+                  let i : number = 0 ;
+
+     do{
+            if(!filtereddata[i].anneeac.toLowerCase().includes(this.etudiant.anneeac.toLowerCase()) ){
+            asupprim.push(filtereddata.indexOf(filtereddata[i]))
             }
+            i = i + 1 ;
+        }while( i < temp)
+        asupprim.forEach((supp : any) => {
+            filtereddata.splice(supp-counta,1)
+            counta = counta + 1 
         })
       }
       else{
         inf = true ;
           this.rows.forEach((row : ModelEtudiant) => {
-            if(row.anneeac.includes(this.etudiant.anneeac)){
+            if(row.anneeac.toLowerCase().includes(this.etudiant.anneeac.toLowerCase())){
             filtereddata.push(row)
           }
       }); 
@@ -389,17 +503,26 @@ export class ListeEtuComponent implements OnInit {
         return ;
       }
       else if(filtereddata.length > 0){
-        filtereddata.forEach((filtered : ModelEtudiant) => {
-          inf = true
-            if(!filtered.numtel.includes(this.etudiant.numtel) ){
-                filtereddata.splice(filtereddata.indexOf(filtered),1);
+              let counta : number = 0 ;
+                  var temp  = filtereddata.length;
+                  var asupprim :any[] =  []
+                  let i : number = 0 ;
+
+     do{
+            if(!filtereddata[i].numtel.toLowerCase().includes(this.etudiant.numtel.toLowerCase()) ){
+            asupprim.push(filtereddata.indexOf(filtereddata[i]))
             }
+            i = i + 1 ;
+        }while( i < temp)
+        asupprim.forEach((supp : any) => {
+            filtereddata.splice(supp-counta,1)
+            counta = counta + 1 
         })
       }
       else{
         inf = true ;
           this.rows.forEach((row : ModelEtudiant) => {
-            if(row.numtel.includes(this.etudiant.numtel)){
+            if(row.numtel.toLowerCase().includes(this.etudiant.numtel.toLowerCase())){
             filtereddata.push(row)
           }
       }); 
@@ -411,17 +534,26 @@ export class ListeEtuComponent implements OnInit {
         return ;
       }
       else if(filtereddata.length > 0){
-        filtereddata.forEach((filtered : ModelEtudiant) => {
-          inf = true
-            if(!filtered.sexe.includes(this.etudiant.sexe) ){
-                filtereddata.splice(filtereddata.indexOf(filtered),1);
+               let counta : number = 0 ;
+                  var temp  = filtereddata.length;
+                  var asupprim :any[] =  []
+                  let i : number = 0 ;
+
+     do{
+            if(!filtereddata[i].sexe.toLowerCase().includes(this.etudiant.sexe.toLowerCase()) ){
+            asupprim.push(filtereddata.indexOf(filtereddata[i]))
             }
+            i = i + 1 ;
+        }while( i < temp)
+        asupprim.forEach((supp : any) => {
+            filtereddata.splice(supp-counta,1)
+            counta = counta + 1 
         })
       }
       else{
         inf = true ;
           this.rows.forEach((row : ModelEtudiant) => {
-            if(row.sexe.includes(this.etudiant.sexe)){
+            if(row.sexe.toLowerCase().includes(this.etudiant.sexe.toLowerCase())){
             filtereddata.push(row)
           }
       }); 
@@ -433,17 +565,26 @@ export class ListeEtuComponent implements OnInit {
         return ;
       }
       else if(filtereddata.length > 0){
-        filtereddata.forEach((filtered : ModelEtudiant) => {
-          inf = true
-            if(!filtered.seriebac.includes(this.etudiant.seriebac) ){
-                filtereddata.splice(filtereddata.indexOf(filtered),1);
+              let counta : number = 0 ;
+                  var temp  = filtereddata.length;
+                  var asupprim :any[] =  []
+                  let i : number = 0 ;
+
+     do{
+            if(!filtereddata[i].seriebac.toLowerCase().includes(this.etudiant.seriebac.toLowerCase()) ){
+            asupprim.push(filtereddata.indexOf(filtereddata[i]))
             }
+            i = i + 1 ;
+        }while( i < temp)
+        asupprim.forEach((supp : any) => {
+            filtereddata.splice(supp-counta,1)
+            counta = counta + 1 
         })
       }
       else{
         inf = true ;
           this.rows.forEach((row : ModelEtudiant) => {
-            if(row.seriebac.includes(this.etudiant.seriebac)){
+            if(row.seriebac.toLowerCase().includes(this.etudiant.seriebac.toLowerCase())){
             filtereddata.push(row)
           }
       }); 
@@ -455,17 +596,26 @@ export class ListeEtuComponent implements OnInit {
         return ;
       }
       else if(filtereddata.length > 0){
-        filtereddata.forEach((filtered : ModelEtudiant) => {
-          inf = true
-            if(!filtered.resultat.includes(this.etudiant.resultat) ){
-                filtereddata.splice(filtereddata.indexOf(filtered),1);
+               let counta : number = 0 ;
+                  var temp  = filtereddata.length;
+                  var asupprim :any[] =  []
+                  let i : number = 0 ;
+
+     do{
+            if(!filtereddata[i].resultat.toLowerCase().includes(this.etudiant.resultat.toLowerCase()) ){
+            asupprim.push(filtereddata.indexOf(filtereddata[i]))
             }
+            i = i + 1 ;
+        }while( i < temp)
+        asupprim.forEach((supp : any) => {
+            filtereddata.splice(supp-counta,1)
+            counta = counta + 1 
         })
       }
       else{
         inf = true ;
           this.rows.forEach((row : ModelEtudiant) => {
-            if(row.resultat.includes(this.etudiant.resultat)){
+            if(row.resultat.toLowerCase().includes(this.etudiant.resultat.toLowerCase())){
             filtereddata.push(row)
           }
       }); 
@@ -482,119 +632,119 @@ export class ListeEtuComponent implements OnInit {
     let filtereddata : Array<ModelEtudiant> = [];
     if(this.checknom){
       this.rows.forEach((row : ModelEtudiant) => {
-      if(row.nom.includes(this.etudiant.nom)){
+      if(row.nom.toLowerCase().includes(this.etudiant.nom)){
              filtereddata.push(row)
           }
       }); 
     }
     if(this.checkprenom){
       this.rows.forEach((row : ModelEtudiant) => {
-          if(row.prenom.includes(this.etudiant.prenom)){
+          if(row.prenom.toLowerCase().includes(this.etudiant.prenom)){
              filtereddata.push(row)
           }
       }); 
     }
     if(this.checkcin){
       this.rows.forEach((row : ModelEtudiant) => {
-          if(row.numcin.includes(this.etudiant.numcin)){
+          if(row.numcin.toLowerCase().includes(this.etudiant.numcin)){
              filtereddata.push(row)
           }
       }); 
     }
     if(this.checkddn){
       this.rows.forEach((row : ModelEtudiant) => {
-          if(row.ddn.toString().slice(0,10).includes(this.etudiant.ddn.toString())){
+          if(row.ddn.toString().slice(0,10).toLowerCase().includes(this.etudiant.ddn.toString())){
              filtereddata.push(row)
           }
       }); 
     }
     if(this.checkdep){
       this.rows.forEach((row : ModelEtudiant) => {
-          if(row.departement.includes(this.etudiant.departement)){
+          if(row.departement.toLowerCase().includes(this.etudiant.departement)){
              filtereddata.push(row)
           }
       }); 
     }
     if(this.checketat){
       this.rows.forEach((row : ModelEtudiant) => {
-          if(row.etat.includes(this.etudiant.etat)){
+          if(row.etat.toLowerCase().includes(this.etudiant.etat)){
              filtereddata.push(row)
           }
       }); 
     }
     if(this.checkforma){
       this.rows.forEach((row : ModelEtudiant) => {
-          if(row.formation.includes(this.etudiant.formation)){
+          if(row.formation.toLowerCase().includes(this.etudiant.formation)){
              filtereddata.push(row)
           }
       }); 
     }
     if(this.checkldn){
       this.rows.forEach((row : ModelEtudiant) => {
-          if(row.ldn.includes(this.etudiant.ldn)){
+          if(row.ldn.toLowerCase().includes(this.etudiant.ldn)){
              filtereddata.push(row)
           }
       }); 
     }
     if(this.checknatforma){
       this.rows.forEach((row : ModelEtudiant) => {
-          if(row.natureforma.includes(this.etudiant.natureforma)){
+          if(row.natureforma.toLowerCase().includes(this.etudiant.natureforma)){
              filtereddata.push(row)
           }
       }); 
     }
     if(this.checkniv){
       this.rows.forEach((row : ModelEtudiant) => {
-          if(row.niveau.includes(this.etudiant.niveau)){
+          if(row.niveau.toLowerCase().includes(this.etudiant.niveau)){
              filtereddata.push(row)
           }
       }); 
     }
     if(this.checkopt){
       this.rows.forEach((row : ModelEtudiant) => {
-          if(row.option.includes(this.etudiant.option)){
+          if(row.option.toLowerCase().includes(this.etudiant.option)){
              filtereddata.push(row)
           }
       }); 
     }
     if(this.checknumetu){
       this.rows.forEach((row : ModelEtudiant) => {
-          if(row.numetu.includes(this.etudiant.numetu)){
+          if(row.numetu.toLowerCase().includes(this.etudiant.numetu)){
              filtereddata.push(row)
           }
       }); 
     }
     if(this.checkannee){
       this.rows.forEach((row : ModelEtudiant) => {
-          if(row.anneeac.includes(this.etudiant.anneeac)){
+          if(row.anneeac.toLowerCase().includes(this.etudiant.anneeac)){
              filtereddata.push(row)
           }
       }); 
     }
     if(this.checktel){
       this.rows.forEach((row : ModelEtudiant) => {
-          if(row.numtel.includes(this.etudiant.numtel)){
+          if(row.numtel.toLowerCase().includes(this.etudiant.numtel)){
              filtereddata.push(row)
           }
       }); 
     }
     if(this.checksexe){
       this.rows.forEach((row : ModelEtudiant) => {
-          if(row.sexe.includes(this.etudiant.sexe)){
+          if(row.sexe.toLowerCase().includes(this.etudiant.sexe)){
              filtereddata.push(row)
           }
       }); 
     }
     if(this.checkserbac){
       this.rows.forEach((row : ModelEtudiant) => {
-          if(row.seriebac.includes(this.etudiant.seriebac)){
+          if(row.seriebac.toLowerCase().includes(this.etudiant.seriebac)){
              filtereddata.push(row)
           }
       }); 
     }
     if(this.checkres){
       this.rows.forEach((row : ModelEtudiant) => {
-          if(row.resultat.includes(this.etudiant.resultat)){
+          if(row.resultat.toLowerCase().includes(this.etudiant.resultat)){
              filtereddata.push(row)
           }
       }); 

@@ -33,7 +33,7 @@ export class LoginComponent {
             )
 
     }
-    handle(parameter){
+    handle(parameter: any){
         if (parameter.length == 0 ){
             console.log("None")
             this.result = new Utilisateur()
@@ -44,10 +44,18 @@ export class LoginComponent {
             * Prendre le token et mettre dans le localstorage
             * Prendre en compte le statut 
             */
+            localStorage.setItem("login",JSON.stringify(parameter))
+            if(this.creditantials.username == "admin"){
+            localStorage.setItem("admin",'true')
+            }
+            else{
+            localStorage.setItem("admin",'false')
+            }
+            // Changement Route
             this._route.navigate(["/homeuser"])
         }
     }
-    handleerror(parameter){
+    handleerror(parameter: any){
         if (parameter.status == 401){
             this.nodisplayerr = false ; 
             this.errortext = "Mauvaise combinaison Login / Mot de Passe";

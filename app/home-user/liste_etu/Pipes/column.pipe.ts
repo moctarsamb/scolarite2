@@ -9,7 +9,7 @@ pure: false
 })
 export class tri_attribute implements PipeTransform {
   
-  transform(value, attribute: string): Array<ModelEtudiant> {
+  transform(value: any, attribute: string): Array<ModelEtudiant> {
       if(!value){
         return
       }

@@ -25,7 +25,17 @@
 
       // other libraries
       'rxjs':                      'npm:rxjs',
-      'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'
+      'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
+      'ng2-charts/ng2-charts': 'npm:ng2-charts/ng2-charts.js',
+      charts :'npm:ng2-charts/',
+      'chart.js/chart.js': 'npm:chart.js/src/chart.js',
+      'chartjs-color': 'npm:chartjs-color/index.js',
+      'moment': 'npm:moment/moment.js',
+      'color-convert': 'npm:color-convert/index.js',
+      'chartjs-color-string' : 'npm:chartjs-color-string/color-string.js',
+      charta : 'npm:chart.js/src/',
+      convert : 'npm:color-convert',
+      'color-name' : 'npm:color-name/index.js'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -35,7 +45,18 @@
       },
       rxjs: {
         defaultExtension: 'js'
+      },
+      charts: {
+        defaultExtension: 'js'
+      },
+      charta: {
+        defaultExtension: 'js'
+      },
+      convert:{
+                defaultExtension: 'js'
+
       }
+
     }
   });
 })(this);

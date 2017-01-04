@@ -3,12 +3,12 @@
         <h1 > <a class="btn btn-success" (click) = "goto($event,'homeuser')" > Retour</a> </h1><br>  
     </div>
     <div>
-        <span  class="glyphicon glyphicon-console"></span><button class="btn btn-link" (click)="displayfilter = !displayfilter"  >Filter</button>
+        <span  class="glyphicon glyphicon-menu-hamburger"></span><button class="btn btn-link" (click)="displayfilter = !displayfilter;"  >Filter</button>
+        <span class="glyphicon glyphicon-asterisk" *ngIf="touchedfilter"></span>
     </div>
     <div *ngIf="displayfilter" >
          <div class="form-group row ">
-                <label for="nom" class="col-lg-3 col-form-label"><input type="checkbox" [(ngModel)]="checknom" class="col-lg-1" >
- Nom : </label>
+                <label for="nom" class="col-lg-3 col-form-label"><input type="checkbox" [(ngModel)]="checknom" class="col-lg-1" >Nom : </label>
                 <div class="col-lg-3">
                 <input type="text" name="nom" [(ngModel)]="etudiant.nom" class="form-control" placeholder="Entrez le nom" id="nom" [disabled]="!checknom" required >
             </div>
@@ -160,7 +160,7 @@
                    <button (click)="filtration($event)" class="btn btn-success btn-block"  >Filtrer</button>        
                      </div>
                      <div class="col-lg-2">
-                   <button (click)="reset()" class="btn btn-warning btn-block"  >Reset</button>        
+                   <button (click)="reset($event)" class="btn btn-warning btn-block"  >Reset</button>        
                      </div>
                      <div class="col-lg-2">
                          <select [(ngModel)]="etou" class="form-control">
@@ -172,6 +172,14 @@
             </div>
           
     </div>
+    <div>
+        <span  class="glyphicon glyphicon glyphicon-stats"></span><button class="btn btn-link" (click)="displaystats = !displaystats;"  >Statistiques</button>
+    </div>
+    <stats *ngIf="displaystats"
+    [rows] = "rows"
+    [all] = "alletudiants"
+>
+</stats>
 <div class="table-responsive">
     <table class="table table-hover table-bordered table-condensed">
             <thead>
@@ -219,6 +227,7 @@
     </table>
     <h4 class="text-center"*ngIf="!rows || rows.length == 0" > Aucun élément ne correspond à la recherche</h4>
 </div>
+ 
 
             
 </div>

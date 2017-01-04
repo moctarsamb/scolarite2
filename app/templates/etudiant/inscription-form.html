@@ -87,15 +87,16 @@
                     <label for="option" class="col-lg-2 col-form-label" >Option</label>
                     <div class="col-lg-10">
                     <select name="option" id="option" class="form-control" [(ngModel)]="etudiant.option"  required>
-                            <option value="telecom" selected>Telecom & Reseaux</option> 
-                            <option value="info">Informatique</option> 
+                            <option value="Telecom-Reseaux" *ngIf="etudiant.departement == 'Génie Informatique'" selected>Telecom & Reseaux</option> 
+                            <option value="Informatique" *ngIf="etudiant.departement == 'Génie Informatique'">Informatique</option> 
                             <option *ngIf="etudiant.departement == 'Gestion'" value="DESCAF">Banque & Assurance</option> 
                             <option *ngIf="etudiant.departement == 'Gestion'" value="DESCAF">Finance</option> 
-                            <option value="mecanique">Mécanique</option> 
-                            <option value="electrique nanovolts">Electrique NanoV</option> 
-                            <option value="electrique megavolts">Electrique MegaV</option> 
-                            <option value="chimie">Chimie</option> 
-                            <option value="biologie">Biologie</option> 
+                            <option value="Mecanique" *ngIf="etudiant.departement == 'Génie Mécanique'">Mécanique</option> 
+                            <option value="Electrique Nanovolts" *ngIf="etudiant.departement == 'Génie Electrique'">Electrique NanoV</option> 
+                            <option value="Electrique Megavolts" *ngIf="etudiant.departement == 'Génie Electrique'">Electrique MegaV</option> 
+                            <option value="Chimie" *ngIf="etudiant.departement == 'GCBA'">Chimie</option> 
+                            <option value="Biologie" *ngIf="etudiant.departement == 'GCBA'" >Biologie</option> 
+                            <option value="Civil" *ngIf="etudiant.departement == 'Génie Civil'" >Civil</option> 
                             
                         </select>  
                 </div>
