@@ -75,7 +75,7 @@ return ;
       }  if (row.departement.includes("Civil")){
         this.nbreCiv++
 return ;
-      }  if (row.departement.includes("Chim")){
+      }  if (row.departement.includes("GCBA")){
         this.nbreGcba++
         return ;
       }
